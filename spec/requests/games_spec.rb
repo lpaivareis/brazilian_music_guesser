@@ -1,0 +1,28 @@
+require "rails_helper"
+
+RSpec.describe "Games", type: :request do
+  describe "POST /games" do
+    it "creates a Game and redirects to the game path" do
+      expect {
+        post games_path, params: { player_name: "Ana" }
+      }.to change(Game, :count).by(1)
+
+      expect(response).to redirect_to(game_path(Game.last))
+    end
+  end
+
+  describe "GET /games/:id" do
+    let!(:song_a) { create(:song) }
+    let!(:song_b) { create(:song) }
+    let!(:song_c) { create(:song) }
+    let!(:song_d) { create(:song) }
+    let!(:game) { create(:game) }
+
+    it "renders successfully and shows round content" do
+      get game_path(game)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Tocar trecho")
+    end
+  end
+end
