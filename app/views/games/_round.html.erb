@@ -1,0 +1,52 @@
+<%= turbo_frame_tag "round" do %>
+  <div class="flex flex-col gap-4">
+    <% if local_assigns[:last_round].present? %>
+      <% if last_round.correct %>
+        <div class="rounded-lg px-4 py-3 text-center font-semibold bg-green-100 text-green-800 border border-green-200">
+          Correto!
+        </div>
+      <% else %>
+        <div class="rounded-lg px-4 py-3 text-center font-semibold bg-red-100 text-red-800 border border-red-200">
+          Errado! Era <%= last_round.song.artist %> - <%= last_round.song.title %>
+        </div>
+      <% end %>
+    <% end %>
+
+    <% if round.present? %>
+      <div class="bg-white shadow rounded-lg p-6 flex flex-col gap-6">
+        <div data-controller="youtube-player"
+             data-youtube-player-video-id-value="<%= round.song.youtube_id %>"
+             data-youtube-player-clip-start-value="<%= round.song.clip_start %>"
+             data-youtube-player-clip-end-value="<%= round.song.clip_end %>"
+             class="flex flex-col items-center gap-3">
+          <button type="button" data-action="youtube-player#start" data-youtube-player-target="startButton"
+                  class="bg-indigo-600 text-white font-semibold rounded px-4 py-2 hover:bg-indigo-700">
+            Tocar trecho
+          </button>
+          <div data-youtube-player-target="mount" class="hidden"></div>
+        </div>
+
+        <div data-controller="timer" data-timer-seconds-value="15" data-timer-target="wrapper"
+             class="text-center text-xl font-mono">
+          <span data-timer-target="display"></span>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <% round.options.each_with_index do |song, index| %>
+            <%= button_to "#{song.artist} - #{song.title}",
+                  round_path(round),
+                  params: { guess_song_id: song.id },
+                  method: :patch,
+                  form: { data: (index.zero? ? { turbo_stream: true, timer_target: "autosubmitForm" } : { turbo_stream: true }) },
+                  class: "w-full text-left border border-gray-300 rounded px-4 py-3 hover:bg-gray-50 font-medium" %>
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <div class="bg-white shadow rounded-lg p-6 text-center flex flex-col gap-4">
+        <p class="text-xl font-bold">Fim de jogo! Pontuação final: <%= game.score %></p>
+        <%= link_to "Ver ranking", rankings_path, class: "text-indigo-600 hover:underline font-medium" %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

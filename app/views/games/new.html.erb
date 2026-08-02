@@ -1,0 +1,20 @@
+<div class="w-full max-w-md mx-auto bg-white shadow rounded-lg p-8">
+  <h1 class="text-2xl font-bold mb-6 text-center">Brazilian Music Guesser</h1>
+
+  <%= form_with url: games_path, method: :post, local: true, class: "flex flex-col gap-4" do %>
+    <label class="flex flex-col gap-1">
+      <span class="text-sm font-medium text-gray-700">Seu nome</span>
+      <input type="text" name="player_name" required
+             class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+    </label>
+
+    <button type="submit"
+            class="bg-indigo-600 text-white font-semibold rounded px-4 py-2 hover:bg-indigo-700">
+      Começar
+    </button>
+  <% end %>
+
+  <div class="mt-4 text-center">
+    <%= link_to "Ver ranking", rankings_path, class: "text-indigo-600 hover:underline text-sm" %>
+  </div>
+</div>
