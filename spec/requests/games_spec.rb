@@ -9,6 +9,18 @@ RSpec.describe "Games", type: :request do
 
       expect(response).to redirect_to(game_path(Game.last))
     end
+
+    it "persists the selected genres on the created game" do
+      post games_path, params: { player_name: "Ana", genres: [ "mpb", "samba" ] }
+
+      expect(Game.last.genres).to contain_exactly("mpb", "samba")
+    end
+
+    it "defaults to an empty genres array when none are given" do
+      post games_path, params: { player_name: "Ana" }
+
+      expect(Game.last.genres).to eq([])
+    end
   end
 
   describe "GET /games/:id" do

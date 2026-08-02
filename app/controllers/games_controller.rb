@@ -1,9 +1,11 @@
 class GamesController < ApplicationController
   def new
+    @genres = Song::GENRES
   end
 
   def create
-    game = Game.create!(player_name: params[:player_name])
+    selected_genres = Array(params[:genres]).reject(&:blank?)
+    game = Game.create!(player_name: params[:player_name], genres: selected_genres)
     redirect_to game_path(game)
   end
 

@@ -3,6 +3,6 @@ FactoryBot.define do
     game
     song
 
-    option_song_ids { [song.id] }
+    option_song_ids { [ song.id ] }
   end
 end

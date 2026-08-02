@@ -6,10 +6,10 @@ RSpec.describe Round, type: :model do
     let!(:song_b) { create(:song) }
     let!(:song_c) { create(:song) }
     let!(:game) { create(:game) }
-    let!(:round) { create(:round, game: game, song: song_a, option_song_ids: [song_b.id, song_a.id, song_c.id]) }
+    let!(:round) { create(:round, game: game, song: song_a, option_song_ids: [ song_b.id, song_a.id, song_c.id ]) }
 
     it "resolves option_song_ids to Song records in order" do
-      expect(round.options).to eq([song_b, song_a, song_c])
+      expect(round.options).to eq([ song_b, song_a, song_c ])
     end
   end
 
@@ -31,7 +31,7 @@ RSpec.describe Round, type: :model do
     let!(:game) { create(:game, score: 0) }
     let!(:song) { create(:song) }
     let!(:other_song) { create(:song) }
-    let(:round) { create(:round, game: game, song: song, option_song_ids: [song.id, other_song.id]) }
+    let(:round) { create(:round, game: game, song: song, option_song_ids: [ song.id, other_song.id ]) }
 
     context "with a correct guess" do
       it "marks the round correct" do
@@ -69,7 +69,7 @@ RSpec.describe Round, type: :model do
 
       it "completes the game" do
         (Game::TOTAL_ROUNDS - 1).times { create(:round, game: game, song: create(:song), correct: true) }
-        last_round = create(:round, game: game, song: last_song, option_song_ids: [last_song.id])
+        last_round = create(:round, game: game, song: last_song, option_song_ids: [ last_song.id ])
 
         last_round.answer!(last_song.id)
 

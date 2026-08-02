@@ -4,7 +4,7 @@ RSpec.describe "Rounds", type: :request do
   let!(:game) { create(:game, score: 0) }
   let!(:song) { create(:song) }
   let!(:other_song) { create(:song) }
-  let!(:round) { create(:round, game: game, song: song, option_song_ids: [song.id, other_song.id]) }
+  let!(:round) { create(:round, game: game, song: song, option_song_ids: [ song.id, other_song.id ]) }
 
   describe "PATCH /rounds/:id" do
     context "with a correct guess" do

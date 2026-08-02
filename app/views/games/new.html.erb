@@ -8,6 +8,26 @@
              class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
     </label>
 
+    <fieldset class="flex flex-col gap-2">
+      <legend class="text-sm font-medium text-gray-700">Gêneros</legend>
+      <p class="text-xs text-gray-500">Se nenhum gênero for selecionado, todos serão incluídos.</p>
+      <% genre_labels = {
+           "bossa_nova" => "Bossa Nova",
+           "mpb" => "MPB",
+           "samba" => "Samba",
+           "rock_nacional" => "Rock Nacional",
+           "soul_samba" => "Soul/Samba",
+           "axe" => "Axé"
+         } %>
+      <% @genres.each do |genre| %>
+        <label class="flex items-center gap-2 text-sm text-gray-700">
+          <input type="checkbox" name="genres[]" value="<%= genre %>"
+                 class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+          <%= genre_labels.fetch(genre, genre.humanize) %>
+        </label>
+      <% end %>
+    </fieldset>
+
     <button type="submit"
             class="bg-indigo-600 text-white font-semibold rounded px-4 py-2 hover:bg-indigo-700">
       Começar

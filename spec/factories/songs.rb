@@ -5,5 +5,6 @@ FactoryBot.define do
     sequence(:youtube_id) { |n| "yt_video_#{n}"[0, 11] }
     clip_start { 30 }
     clip_end { 45 }
+    genre { "mpb" }
   end
 end

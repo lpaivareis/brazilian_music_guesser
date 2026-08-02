@@ -1,4 +1,6 @@
 class Game < ApplicationRecord
+  serialize :genres, coder: JSON, default: []
+
   has_many :rounds, dependent: :destroy
   has_many :songs, through: :rounds
   validates :player_name, presence: true
@@ -24,8 +26,8 @@ class Game < ApplicationRecord
     return nil if rounds.count >= TOTAL_ROUNDS
     song = Song.random_unused_for(self)
     return nil unless song
-    distractors = Song.excluding_ids(used_song_ids + [song.id]).order(Arel.sql("RANDOM()")).limit(3)
-    options = ([song] + distractors).shuffle
+    distractors = Song.by_genres(genres).excluding_ids(used_song_ids + [ song.id ]).order(Arel.sql("RANDOM()")).limit(3)
+    options = ([ song ] + distractors).shuffle
     rounds.create!(song: song, option_song_ids: options.map(&:id))
   end
 

@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_02_172006) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_02_180419) do
   create_table "games", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.text "genres"
     t.string "player_name", null: false
     t.integer "score", default: 0, null: false
     t.string "status", default: "in_progress", null: false
@@ -40,10 +41,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_02_172006) do
     t.integer "clip_start", default: 0, null: false
     t.datetime "created_at", null: false
     t.string "difficulty"
+    t.string "genre", default: "", null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
     t.string "youtube_id", null: false
     t.index ["artist", "title"], name: "index_songs_on_artist_and_title", unique: true
+    t.index ["genre"], name: "index_songs_on_genre"
   end
 
   add_foreign_key "rounds", "games"
